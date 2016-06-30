@@ -53,7 +53,7 @@ CSV.foreach(@file_name, :headers => true) do |row|
     ## update vuln ID with data
     vuln_update_json = {
       'vulnerability' => {
-        'status' => 'false_positive',
+        'status' => 'false_positive_by_human',
         'notes' => 'updated by Kenna test script',
         'custom_fields' => {
           1227 => tm_record,
