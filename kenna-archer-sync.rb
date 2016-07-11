@@ -20,7 +20,7 @@ CSV.foreach(@file_name, :headers => true) do |row|
   puts "Reading line #{$.}... "
 
   ## Pull from CSV
-  tm_record = row['TM Record']
+  tm_record = row['Scan Record ID']
   archer_status = row['Vulnerability Status']
   hostname_str = row['Qualys DNS Hostname']
   qid_str = row['QID']
@@ -57,8 +57,8 @@ CSV.foreach(@file_name, :headers => true) do |row|
         'status' => 'false_positive_by_human',
         'notes' => 'updated by Kenna test script',
         'custom_fields' => {
-          1227 => tm_record,
-          1230 => archer_status
+          1199 => tm_record,
+          4037 => archer_status
         }
       }
     }
