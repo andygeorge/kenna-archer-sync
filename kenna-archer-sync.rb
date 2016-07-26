@@ -20,7 +20,7 @@ output_filename = "kenna-archer-sync-log_#{start_time.strftime("%Y%m%dT%H%M")}.t
 
 ## Iterate through CSV
 CSV.foreach(@file_name, :headers => true) do |row|
-  log_output = File.open(output_filename,'w+')
+  log_output = File.open(output_filename,'a+')
   log_output << "Reading line #{$.}... (time: #{Time.now.to_s}, start time: #{start_time.to_s}\n"
   puts "Reading line #{$.}... "
 
