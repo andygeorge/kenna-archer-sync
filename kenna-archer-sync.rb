@@ -27,11 +27,11 @@ CSV.foreach(@file_name, :headers => true) do |row|
   ## Pull from CSV
   tm_record = row['Scan Record ID']
   archer_status = row['Vulnerability Status']
-  hostname_str = row['Qualys DNS Hostname']
+  ip_str = row['Qualys IP Address']
   qid_str = row['QID']
 
   ## Build query string/URL
-  api_query = "hostname#{enc_colon}#{enc_dblquote}#{hostname_str}#{enc_dblquote}#{enc_space}AND#{enc_space}scanner_id#{enc_colon}#{qid_str}"
+  api_query = "ip#{enc_colon}#{ip_str}#{enc_space}AND#{enc_space}scanner_id#{enc_colon}#{qid_str}"
   query_url = "#{@search_url}#{api_query}"
 
   ## Query API with query_url
