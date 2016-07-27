@@ -16,12 +16,13 @@ enc_dblquote = "%22"
 enc_space = "%20"
 
 start_time = Time.now
-output_filename = "kenna-archer-sync-log_#{start_time.strftime("%Y%m%dT%H%M")}.txt"
+output_filename = "kenna-archer-sync_log-#{start_time.strftime("%Y%m%dT%H%M")}.txt"
 
 ## Iterate through CSV
 CSV.foreach(@file_name, :headers => true) do |row|
   log_output = File.open(output_filename,'a+')
-  log_output << "Reading line #{$.}... (time: #{Time.now.to_s}, start time: #{start_time.to_s}\n"
+  log_output << "Reading line #{$.}... (time: #{Time.now.to_s}, start time: #{start_time.to_s})\n"
+  log_output.close
   puts "Reading line #{$.}... "
 
   ## Pull from CSV
@@ -54,6 +55,7 @@ CSV.foreach(@file_name, :headers => true) do |row|
   
   if !vuln_id.nil?
     puts "Found Kenna vuln_id: #{vuln_id}, updating..."
+    log_output = File.open(output_filename,'a+')
     log_output << "Found Kenna vuln_id: #{vuln_id}, updating...\n"
     log_output.close
     vuln_url = "#{@vuln_api_url}/#{vuln_id}"
