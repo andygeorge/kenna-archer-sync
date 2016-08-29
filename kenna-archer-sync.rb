@@ -31,9 +31,18 @@ CSV.foreach(@file_name, :headers => true) do |row|
   #ip_str = row['Qualys IP Address']
   qid_str = row['QID']
   dns_hostname = row['Qualys DNS Hostname']
+  ip_str = row['Qualys IP Address']
 
-  ## Build query string/URL
-  api_query = "hostname#{enc_colon}#{dns_hostname}#{enc_space}AND#{enc_space}scanner_id#{enc_colon}#{qid_str}"
+  if dns_hostname == nil then
+ 
+    ## Build query string/URL
+    api_query = "ip#{enc_colon}#{ip_str}#{enc_space}AND#{enc_space}scanner_id#{enc_colon}#{qid_str}"
+  
+  else
+    ## Build query string/URL
+    api_query = "hostname#{enc_colon}#{dns_hostname}#{enc_space}AND#{enc_space}scanner_id#{enc_colon}#{qid_str}"
+  end
+    
   query_url = "#{@search_url}#{api_query}"
 
   ## Query API with query_url
