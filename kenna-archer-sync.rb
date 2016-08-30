@@ -68,14 +68,7 @@ CSV.foreach(@file_name, :headers => true) do |row|
       end 
   query_response_json = JSON.parse(query_response)["vulnerabilities"]
 
-  ## parse JSON, pull out vuln ID
-  # if query_response_json.has_key?("vulnerabilities")
-  #   if query_response_json["vulnerabilities"].count > 0
-  #     if query_response_json["vulnerabilities"].first.has_key?("id")
-  #       vuln_id = "#{query_response_json["vulnerabilities"].first["id"]}"
-  #     end
-  #   end
-  # end
+
   query_response_json.each do |item|
     vuln_id = item["id"]
     if !vuln_id.nil?
