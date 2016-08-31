@@ -103,13 +103,13 @@ CSV.foreach(@file_name, :headers => true) do |row|
         log_output = File.open(output_filename,'a+')
         log_output << "Unable to update - UnprocessableEntity: #{post_url}... (time: #{Time.now.to_s}, start time: #{start_time.to_s})\n"
         log_output.close
-        puts "Unable to update: #{post_url}"
+        puts "Unable to update: #{vuln_url}"
 
       rescue RestClient::BadRequest
         log_output = File.open(output_filename,'a+')
         log_output << "Unable to update - BadRequest: #{post_url}... (time: #{Time.now.to_s}, start time: #{start_time.to_s})\n"
         log_output.close
-        puts "Unable to update: #{post_url}"
+        puts "Unable to update: #{vuln_url}"
       end
   end
 end
