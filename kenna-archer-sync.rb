@@ -87,8 +87,8 @@ CSV.foreach(@file_name, :headers => true) do |row|
  #         4050 => tm_record,
  #         4055 => archer_status
  #test eviron
-           1227 => tm_record,
-           1230 => archer_status
+           1199 => tm_record,
+           4037 => archer_status
         }
       }
     }
