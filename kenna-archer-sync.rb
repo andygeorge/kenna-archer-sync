@@ -9,6 +9,7 @@ require 'csv'
 @vuln_api_url = 'https://api.kennasecurity.com/vulnerabilities'
 @search_url = @vuln_api_url + '/search?q='
 @headers = {'content-type' => 'application/json', 'X-Risk-Token' => @token, 'accept' => 'application/json'}
+@max_retries = 5
 
 # Encoding characters
 enc_colon = "%3A"
@@ -65,6 +66,19 @@ CSV.foreach(@file_name, :headers => true) do |row|
         log_output.close
         puts "Unable to get vulns: #{query_url}"
         next
+      rescue RestClient::Exception
+        @retries ||= 0
+        if @retries < @max_retries
+          @retries += 1
+          sleep(15)
+          retry
+        else
+          log_output = File.open(output_filename,'a+')
+          log_output << "General RestClient error #{query_url}... (time: #{Time.now.to_s}, start time: #{start_time.to_s})\n"
+          log_output.close
+          puts "Unable to get vulns: #{query_url}"
+          next
+        end
       end 
   query_response_json = JSON.parse(query_response)["vulnerabilities"]
 
@@ -110,6 +124,19 @@ CSV.foreach(@file_name, :headers => true) do |row|
         log_output << "Unable to update - BadRequest: #{vuln_url}... (time: #{Time.now.to_s}, start time: #{start_time.to_s})\n"
         log_output.close
         puts "Unable to update: #{vuln_url}"
+      rescue RestClient::Exception
+        @retries ||= 0
+        if @retries < @max_retries
+          @retries += 1
+          sleep(15)
+          retry
+        else
+          log_output = File.open(output_filename,'a+')
+          log_output << "General RestClient error #{vuln_url}... (time: #{Time.now.to_s}, start time: #{start_time.to_s})\n"
+          log_output.close
+          puts "Unable to update: #{vuln_url}"
+
+        end
       end
   end
 end
